@@ -1,0 +1,23 @@
+server:
+  applicationConnectors:
+  - type: http
+    port: 9006
+  adminConnectors:
+  - type: http
+    port: 9007
+
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: DEBUG
+  appenders:
+      - type: file
+        threshold: ALL
+        archive: true
+        timeZone: IST
+        logFormat: "%highlight(%-5level) [%date] [%thread] [%cyan(%logger{0})]: %message%n"
+        currentLogFilename: /var/log/flipkart/musictube/musictube-server.log
+        archivedLogFilenamePattern: /var/log/flipkart/musictube/musictube-server-%d{yyyy-MM-dd-HH}.log.gz
+        archivedFileCount: 7
+      - type: console
+        timeZone: IST
+        logFormat: "%highlight(%-5level) [%date] [%thread] [%cyan(%logger{0})]: %message%n"

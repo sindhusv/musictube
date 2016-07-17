@@ -1,12 +1,11 @@
 package com.linfu.musictube.service;
 
-import com.linfu.musictube.core.Artist;
-import org.eclipse.jgit.api.Git;
+import com.linfu.musictube.model.Artist;
+import com.linfu.musictube.model.Album;
+import com.linfu.musictube.model.Track;
+import com.linfu.musictube.util.GitUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.Repository;
 
-import java.io.File;
 import java.io.IOException;
 
 
@@ -15,14 +14,21 @@ import java.io.IOException;
  */
 public class MusictubeService {
 
-    public void addArtist(Artist artist) throws IOException, GitAPIException {
-        String localPath = "~/flipkart/personal/mytest";
-        String remotePath = "git@github.com:sindhusv/musictube.git";
-        Repository localRepo = new FileRepository(localPath + "/.git");
-        Git git = new Git(localRepo);
+    private GitUtil git;
 
-        File myfile = new File(localPath + "/myfile");
-        myfile.createNewFile();
-        git.add().addFilepattern("myfile").call();
+    public MusictubeService(GitUtil gitUtil) {
+        git = gitUtil;
+    }
+
+    public void addAlbum(Album album) throws IOException, GitAPIException {
+        git.addAlbum(album);
+    }
+
+    public void addArtist(Artist artist) throws IOException, GitAPIException {
+        git.addArtist(artist);
+    }
+
+    public void addTrack(Track track) throws IOException, GitAPIException {
+        git.addTrack(track);
     }
 }

@@ -2,6 +2,7 @@ package com.linfu.musictube;
 
 import com.linfu.musictube.resource.MusictubeResource;
 import com.linfu.musictube.service.MusictubeService;
+import com.linfu.musictube.util.GitUtil;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
@@ -10,8 +11,19 @@ import io.dropwizard.setup.Environment;
  */
 public class MusictubeApplication extends Application<MusictubeConfiguration> {
 
+    public static void main(final String[] args) throws Exception {
+        new MusictubeApplication().run(args);
+    }
+
+    @Override
+    public String getName() {
+        return "Musictube Server";
+    }
+
     @Override
     public void run(MusictubeConfiguration musictubeConfiguration, Environment environment) throws Exception {
-        environment.jersey().register(new MusictubeResource(new MusictubeService()));
+        GitUtil gitUtil = new GitUtil();
+
+        environment.jersey().register(new MusictubeResource(new MusictubeService(gitUtil)));
     }
 }
