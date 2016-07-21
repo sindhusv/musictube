@@ -125,6 +125,7 @@ public class GitUtil {
         if (!albumFile.exists()) {
             log.info(String.format("Creating albumn-{} file", album.getId()));
             albumFile.createNewFile();
+            albumData = album;
         } else {
             albumData = mapper.readValue(albumFile, Album.class);
             albumData.getTracks().addAll(album.getTracks());
