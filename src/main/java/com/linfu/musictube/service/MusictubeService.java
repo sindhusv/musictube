@@ -23,24 +23,15 @@ public class MusictubeService {
         git = gitUtil;
     }
 
-    public void addAlbum(Album album) throws IOException, GitAPIException {
-        git.addAlbum(album);
-    }
-
     public void addArtist(Artist artist) throws IOException, GitAPIException {
+        git.pull();
         git.addArtist(artist);
-    }
-
-    public void addTrack(List<Track> tracks) throws IOException, GitAPIException {
-        for (Track track : tracks) {
-            git.addTrack(track);
-        }
+        git.add();
+        git.commit("Added artist");
+        git.push();
     }
 
     public List<Track> getTracks(String albumnId, String albumnName) throws IOException {
-        //search in local repo
-        //if exist - return the result
-        //else - get the data from audioDB
         return audioDbService.getTracksByAlbumnId(albumnId, albumnName);
     }
 
@@ -49,9 +40,6 @@ public class MusictubeService {
     }
 
     public List<Album> getAlbumnsByArtistName(String albumnName) throws IOException {
-        //search in local repo
-        //if exist - return the result
-        //else - get the data from audioDB
         return audioDbService.getAlbumsByArtistName(albumnName);
     }
 

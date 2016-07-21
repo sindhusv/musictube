@@ -32,44 +32,6 @@ public class MusictubeResource {
         this.musictubeService = musictubeService;
     }
 
-    @GET
-    @Path("/sample")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String sample() {
-        return "sample";
-    }
-
-    @POST
-    @Path("/album/{albumId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addAlbum(@PathParam("albumId") String albumId, ArrayList<String> validatedTrackIds) {
-        try {
-            Album album = musictubeService.getAlbumByAlbumId(albumId);
-
-            Artist artist = musictubeService.getArtistByArtistId(album.getArtistId());
-
-            List<Track> tracks = musictubeService.getTracks(albumId, album.getTitle());
-            List<Track> validatedTracks = new ArrayList<Track>();
-
-            for (Track track : tracks) {
-                if (validatedTrackIds.contains(track.getId())) {
-                    track.setLock(true);
-                    validatedTracks.add(track);
-                }
-            }
-            album.setTracks(validatedTracks);
-            artist.setAlbums(Arrays.asList(album));
-
-            musictubeService.addAlbum(album);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (GitAPIException e) {
-            e.printStackTrace();
-        }
-    }
-
     @POST
     @Path("/artist/{artistId}/album/{albumId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -93,29 +55,6 @@ public class MusictubeResource {
             artist.setAlbums(Arrays.asList(album));
 
             musictubeService.addArtist(artist);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (GitAPIException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @POST
-    @Path("{albumId}/track")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addTrack(@PathParam("albumId") String albumId, ArrayList<String> validatedTrackIds) {
-        try {
-            List<Track> tracks = musictubeService.getTracks(albumId, null);
-            List<Track> validatedTracks = new ArrayList<Track>();
-
-            for (Track track : tracks) {
-                if (validatedTrackIds.contains(track.getId())) {
-                    validatedTracks.add(track);
-                }
-            }
-            musictubeService.addTrack(validatedTracks);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (GitAPIException e) {

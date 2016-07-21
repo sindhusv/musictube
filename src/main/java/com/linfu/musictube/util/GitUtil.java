@@ -43,20 +43,20 @@ public class GitUtil {
                 .setDirectory(new File(localPath)).call();
     }
 
-    private void add() throws GitAPIException {
+    public void add() throws GitAPIException {
         git.add().addFilepattern(".").call();
     }
 
-    private void commit(String message) throws IOException, GitAPIException, JGitInternalException {
+    public void commit(String message) throws IOException, GitAPIException, JGitInternalException {
         git.commit().setMessage(message).call();
     }
 
-    private void push() throws IOException, JGitInternalException, GitAPIException {
+    public void push() throws IOException, JGitInternalException, GitAPIException {
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider( "sindhusv", "Fresh@2014" );
         git.push().setCredentialsProvider(cp).call();
     }
 
-    private void pull() throws IOException, JGitInternalException, GitAPIException {
+    public void pull() throws IOException, JGitInternalException, GitAPIException {
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider( "sindhusv", "Fresh@2014" );
         git.pull().setCredentialsProvider(cp).call();
     }
@@ -100,9 +100,9 @@ public class GitUtil {
                         }
             }
          */
-        pull();
 
         Album albumData;
+        List<Album> albumMetaData = new ArrayList<Album>();
         ObjectMapper mapper = new ObjectMapper();
 
         File dataDir = new File(localPath + "/src/main/resources/data");
@@ -117,9 +117,34 @@ public class GitUtil {
         }
         File artistDir = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId());
         if (!artistDir.exists()) {
-            log.info(String.format("Creating artist-{} directory", album.getArtistId()));
+            log.info(String.format("Creating artist- {} directory", album.getArtistId()));
             artistDir.mkdir();
         }
+        File albumMetadataFile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/albums.json");
+        if (!albumMetadataFile.exists()) {
+            log.info("Creating albumMetadata file");
+            albumMetadataFile.createNewFile();
+        } else {
+            albumMetaData = mapper.readValue(albumMetadataFile, new TypeReference<List<Album>>(){});
+        }
+
+        boolean albumMetadataAlreadyPresent = false;
+        for (Album localAlbum : albumMetaData) {
+            if (localAlbum.getId().equals(album.getId())) {
+                albumMetadataAlreadyPresent = true;
+                break;
+            }
+        }
+
+        if (!albumMetadataAlreadyPresent) {
+            Album albumWithoutTracks = album;
+            albumWithoutTracks.setTracks(null);
+            albumMetaData.add(albumWithoutTracks);
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(albumMetadataFile, albumMetaData);
+        }
+
+
         File albumFile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
         if (!albumFile.exists()) {
             log.info(String.format("Creating albumn-{} file", album.getId()));
@@ -127,14 +152,11 @@ public class GitUtil {
             albumData = album;
         } else {
             albumData = mapper.readValue(albumFile, Album.class);
+            //TODO: validate whether we are appending any already locked tracks
             albumData.getTracks().addAll(album.getTracks());
         }
 
         mapper.writerWithDefaultPrettyPrinter().writeValue(albumFile, albumData);
-
-        add();
-        commit("Added album");
-        push();
     }
 
     public void addArtist(Artist artist) throws IOException, GitAPIException {
@@ -142,7 +164,6 @@ public class GitUtil {
          * /tracks/artists.json
          * /tracks/<artistId>/albumns.json
          */
-        pull();
 
         List<Artist> artistData = new ArrayList<Artist>();
         ObjectMapper mapper = new ObjectMapper();
@@ -161,23 +182,19 @@ public class GitUtil {
             artistData = mapper.readValue(artistFile, new TypeReference<List<Artist>>(){});
         }
 
-        boolean alreadyPresent = false;
+        boolean artistAlreadyPresent = false;
         for (Artist localArtist : artistData) {
             if (localArtist.getId() == artist.getId()) {
-                alreadyPresent = true;
+                artistAlreadyPresent = true;
                 break;
             }
         }
 
-        if (!alreadyPresent) {
+        if (!artistAlreadyPresent) {
             Artist artistWithoutAlbumn = artist;
             artistWithoutAlbumn.setAlbums(null);
             artistData.add(artistWithoutAlbumn);
             mapper.writerWithDefaultPrettyPrinter().writeValue(artistFile, artistData);
-
-            add();
-            commit("Added artist");
-            push();
         }
 
         for (Album album : artist.getAlbums()) {
@@ -186,16 +203,10 @@ public class GitUtil {
     }
 
     public void addTrack(Track track) throws IOException, GitAPIException {
-        pull();
-
         File myfile = new File(localPath + "/src/main/resources/track.json");
         ObjectMapper mapper = new ObjectMapper();
         List<Track> tracks = mapper.readValue(myfile, new TypeReference<List<Track>>(){});
         tracks.add(track);
         mapper.writeValue(myfile, tracks);
-
-        add();
-        commit("Added track");
-        push();
     }
 }
