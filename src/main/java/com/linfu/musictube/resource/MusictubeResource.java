@@ -51,6 +51,7 @@ public class MusictubeResource {
 
             for (Track track : tracks) {
                 if (validatedTrackIds.contains(track.getId())) {
+                    track.setLock(true);
                     validatedTracks.add(track);
                 }
             }

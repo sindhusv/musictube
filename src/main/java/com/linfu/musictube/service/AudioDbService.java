@@ -126,6 +126,7 @@ public class AudioDbService {
                     track.setYoutubeLink(youtubeInfo.getVideoId());
                     track.setYoutubeChannelId(youtubeInfo.getChannelId());
                     track.setYoutubeChannelTitle(youtubeInfo.getChannelTitle());
+                    track.setLock(false);
                     tracks.add(track);
                 }
                 return tracks;

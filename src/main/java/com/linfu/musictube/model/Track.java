@@ -23,4 +23,5 @@ public class Track {
     private String youtubeChannelId;
     private String youtubeChannelTitle;
     private String duration;
+    private boolean lock;
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linfu.musictube.model.Album;
 import com.linfu.musictube.model.Artist;
 import com.linfu.musictube.model.Track;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -15,11 +16,14 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by sindhu.vadivelu on 17/07/16.
  */
+
+@Slf4j
 public class GitUtil {
     private String localPath, remotePath;
     private Repository localRepo;
@@ -97,13 +101,36 @@ public class GitUtil {
             }
          */
 
+        Album albumData = new Album();
+        ObjectMapper mapper = new ObjectMapper();
+
         pull();
 
-        File myfile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
-        ObjectMapper mapper = new ObjectMapper();
-        List<Album> albums = mapper.readValue(myfile, new TypeReference<List<Album>>(){});
-        albums.add(album);
-        mapper.writerWithDefaultPrettyPrinter().writeValue(myfile, albums);
+        File dataDir = new File(localPath + "/src/main/resources/data");
+        if (!dataDir.exists()) {
+            log.info("Creating Data directory");
+            dataDir.mkdir();
+        }
+        File tracksDir = new File(localPath + "/src/main/resources/data/tracks");
+        if (!tracksDir.exists()) {
+            log.info("Creating Tracks directory");
+            tracksDir.mkdir();
+        }
+        File artistDir = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId());
+        if (!artistDir.exists()) {
+            log.info(String.format("Creating artist-{} directory", album.getArtistId()));
+            artistDir.mkdir();
+        }
+        File albumFile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
+        if (!albumFile.exists()) {
+            log.info(String.format("Creating albumn-{} file", album.getId()));
+            albumFile.createNewFile();
+        } else {
+            albumData = mapper.readValue(albumFile, Album.class);
+            albumData.getTracks().addAll(album.getTracks());
+        }
+
+        mapper.writerWithDefaultPrettyPrinter().writeValue(albumFile, albumData);
 
         add();
         commit("Added album");
