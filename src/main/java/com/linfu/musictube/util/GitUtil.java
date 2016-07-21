@@ -44,21 +44,29 @@ public class GitUtil {
     }
 
     public void add() throws GitAPIException {
+        log.info("Add started");
         git.add().addFilepattern(".").call();
+        log.info("Add completed");
     }
 
     public void commit(String message) throws IOException, GitAPIException, JGitInternalException {
+        log.info("Commit started");
         git.commit().setMessage(message).call();
+        log.info("Commit completed");
     }
 
     public void push() throws IOException, JGitInternalException, GitAPIException {
+        log.info("Push started");
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider( "sindhusv", "Fresh@2014" );
         git.push().setCredentialsProvider(cp).call();
+        log.info("Push completed");
     }
 
     public void pull() throws IOException, JGitInternalException, GitAPIException {
+        log.info("Pull started");
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider( "sindhusv", "Fresh@2014" );
         git.pull().setCredentialsProvider(cp).call();
+        log.info("Pull completed");
     }
 
     public void addAlbum(Album album) throws IOException, GitAPIException {
@@ -137,8 +145,15 @@ public class GitUtil {
         }
 
         if (!albumMetadataAlreadyPresent) {
-            Album albumWithoutTracks = album;
+            Album albumWithoutTracks = new Album();
+            albumWithoutTracks.setId(album.getId());
+            albumWithoutTracks.setTitle(album.getTitle());
+            albumWithoutTracks.setArtistId(album.getArtistId());
+            albumWithoutTracks.setArtistName(album.getArtistName());
+            albumWithoutTracks.setAlbumArt(album.getAlbumArt());
+            albumWithoutTracks.setYear(album.getYear());
             albumWithoutTracks.setTracks(null);
+
             albumMetaData.add(albumWithoutTracks);
 
             mapper.writerWithDefaultPrettyPrinter().writeValue(albumMetadataFile, albumMetaData);
@@ -184,15 +199,19 @@ public class GitUtil {
 
         boolean artistAlreadyPresent = false;
         for (Artist localArtist : artistData) {
-            if (localArtist.getId() == artist.getId()) {
+            if (localArtist.getId().equals(artist.getId())) {
                 artistAlreadyPresent = true;
                 break;
             }
         }
 
         if (!artistAlreadyPresent) {
-            Artist artistWithoutAlbumn = artist;
+            Artist artistWithoutAlbumn = new Artist();
+            artistWithoutAlbumn.setId(artist.getId());
+            artistWithoutAlbumn.setArtistName(artist.getArtistName());
+            artistWithoutAlbumn.setArtistThumb(artist.getArtistThumb());
             artistWithoutAlbumn.setAlbums(null);
+
             artistData.add(artistWithoutAlbumn);
             mapper.writerWithDefaultPrettyPrinter().writeValue(artistFile, artistData);
         }
