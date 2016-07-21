@@ -1,0 +1,27 @@
+{
+  "id" : "2261431",
+  "artistId" : "129757",
+  "artistName" : "Anirudh Ravichander",
+  "title" : "Maari",
+  "albumArt" : "http://media.theaudiodb.com/images/media/album/thumb/vrpyyy1457460756.jpg",
+  "year" : "2015",
+  "tracks" : [ {
+    "id" : "34570736",
+    "trackNumber" : "6",
+    "title" : "Thappa Dhaan Theriyum (Maari's Karuthu)",
+    "youtubeLink" : "9gh07BuuFnE",
+    "youtubeChannelId" : "UCTNtRdBAiZtHP9w7JinzfUg",
+    "youtubeChannelTitle" : "SonyMusicSouthVEVO",
+    "duration" : "199000",
+    "lock" : true
+  }, {
+    "id" : "34570735",
+    "trackNumber" : "5",
+    "title" : "The Maari Swag",
+    "youtubeLink" : "AeY7_k77zKg",
+    "youtubeChannelId" : "UCTNtRdBAiZtHP9w7JinzfUg",
+    "youtubeChannelTitle" : "SonyMusicSouthVEVO",
+    "duration" : "30000",
+    "lock" : true
+  } ]
+}
