@@ -23,5 +23,23 @@
     "youtubeChannelTitle" : "Eros Tamil",
     "duration" : "311000",
     "lock" : true
+  }, {
+    "id" : "34063032",
+    "trackNumber" : "3",
+    "title" : "Kaththi Theme… the Sword of Destiny",
+    "youtubeLink" : "8uLTNdCQ3fg",
+    "youtubeChannelId" : "UCnS5MV3PRAgTGu2Y2DdGhfQ",
+    "youtubeChannelTitle" : "Eros Tamil",
+    "duration" : "61000",
+    "lock" : true
+  }, {
+    "id" : "34063033",
+    "trackNumber" : "4",
+    "title" : "Selfie Pulla",
+    "youtubeLink" : "wsYW9Mm9Ggo",
+    "youtubeChannelId" : "UCnS5MV3PRAgTGu2Y2DdGhfQ",
+    "youtubeChannelTitle" : "Eros Tamil",
+    "duration" : "291000",
+    "lock" : true
   } ]
 }
