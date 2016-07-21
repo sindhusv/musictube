@@ -32,5 +32,23 @@
     "youtubeChannelTitle" : "SonyMusicSouthVEVO",
     "duration" : "230000",
     "lock" : true
+  }, {
+    "id" : "34570732",
+    "trackNumber" : "2",
+    "title" : "Oru Vidha Aasai (The Temptation of Maari)",
+    "youtubeLink" : "3t1z1ld43N0",
+    "youtubeChannelId" : "UCTNtRdBAiZtHP9w7JinzfUg",
+    "youtubeChannelTitle" : "SonyMusicSouthVEVO",
+    "duration" : "191000",
+    "lock" : true
+  }, {
+    "id" : "34570733",
+    "trackNumber" : "3",
+    "title" : "Don'u Don'u Don'u (The Don's Romance)",
+    "youtubeLink" : "A_z5g0_hJN8",
+    "youtubeChannelId" : "UCTNtRdBAiZtHP9w7JinzfUg",
+    "youtubeChannelTitle" : "SonyMusicSouthVEVO",
+    "duration" : "195000",
+    "lock" : true
   } ]
 }
