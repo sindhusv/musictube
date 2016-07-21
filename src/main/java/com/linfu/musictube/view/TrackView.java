@@ -13,13 +13,15 @@ public class TrackView extends View{
     private List<Track> tracks;
     private String albumId;
     private String albumName;
+    private String artistId;
     private String artistName;
 
-    public TrackView(String albumId, String albumName, String artistName, List<Track> tracks) {
+    public TrackView(String artistId, String artistName, String albumId, String albumName, List<Track> tracks) {
         super("track.ftl");
         this.tracks = tracks;
         this.albumId = albumId;
         this.albumName = albumName;
+        this.artistId = artistId;
         this.artistName = artistName;
     }
 
@@ -33,6 +35,10 @@ public class TrackView extends View{
 
     public String getAlbumName() {
         return albumName;
+    }
+
+    public String getArtistId() {
+        return artistId;
     }
 
     public String getArtistName() {

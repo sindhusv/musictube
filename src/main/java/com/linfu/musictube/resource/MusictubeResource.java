@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,6 +47,9 @@ public class MusictubeResource {
     public void addAlbum(@PathParam("albumId") String albumId, ArrayList<String> validatedTrackIds) {
         try {
             Album album = musictubeService.getAlbumByAlbumId(albumId);
+
+            Artist artist = musictubeService.getArtistByArtistId(album.getArtistId());
+
             List<Track> tracks = musictubeService.getTracks(albumId, album.getTitle());
             List<Track> validatedTracks = new ArrayList<Track>();
 
@@ -56,6 +60,8 @@ public class MusictubeResource {
                 }
             }
             album.setTracks(validatedTracks);
+            artist.setAlbums(Arrays.asList(album));
+
             musictubeService.addAlbum(album);
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,11 +71,27 @@ public class MusictubeResource {
     }
 
     @POST
-    @Path("/artist")
+    @Path("/artist/{artistId}/album/{albumId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addArtist(Artist artist) {
+    public void addArtist(@PathParam("artistId") String artistId, @PathParam("albumId") String albumId, ArrayList<String> validatedTrackIds) {
         try {
+            Album album = musictubeService.getAlbumByAlbumId(albumId);
+
+            Artist artist = musictubeService.getArtistByArtistId(artistId);
+
+            List<Track> tracks = musictubeService.getTracks(albumId, album.getTitle());
+            List<Track> validatedTracks = new ArrayList<Track>();
+
+            for (Track track : tracks) {
+                if (validatedTrackIds.contains(track.getId())) {
+                    track.setLock(true);
+                    validatedTracks.add(track);
+                }
+            }
+            album.setTracks(validatedTracks);
+            artist.setAlbums(Arrays.asList(album));
+
             musictubeService.addArtist(artist);
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,6 +99,7 @@ public class MusictubeResource {
             e.printStackTrace();
         }
     }
+
 
     @POST
     @Path("{albumId}/track")
@@ -116,13 +139,13 @@ public class MusictubeResource {
     }
 
     @GET
-    @Path("/track/{albumId}/{albumName}/{artistName}")
+    @Path("/{artistId}/{artistName}/{albumId}/{albumName}/track")
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TrackView getTrackDetails(@PathParam("albumId") String albumId, @PathParam("albumName") String albumName, @PathParam("artistName") String artistName) {
+    public TrackView getTrackDetails(@PathParam("artistId") String artistId, @PathParam("artistName") String artistName, @PathParam("albumId") String albumId, @PathParam("albumName") String albumName) {
         try {
             List<Track> tracks = musictubeService.getTracks(albumId, albumName);
-            return new TrackView(albumId, albumName, artistName, tracks);
+            return new TrackView(artistId, artistName, albumId, albumName, tracks);
         } catch (IOException e) {
             e.printStackTrace();
         }

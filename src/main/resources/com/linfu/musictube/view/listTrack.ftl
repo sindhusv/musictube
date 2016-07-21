@@ -2,7 +2,7 @@
     <h2 style="width: 86.2%">
         ${artistName} - ${albumName}
     </h2>
-    <button id="btn-upload-${albumId}" class="btn btn-info" type="button" style="background-color: grey; margin: 0px; width: 12%; align-self: center" onclick="uploadAlbum('${albumId}')">Upload</button>
+    <button id="btn-upload-${albumId}" class="btn btn-info" type="button" style="background-color: grey; margin: 0px; width: 12%; align-self: center" onclick="uploadAlbum('${artistId}', '${albumId}')">Upload</button>
 </div>
 
 

@@ -3,6 +3,7 @@ package com.linfu.musictube.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linfu.musictube.model.Album;
+import com.linfu.musictube.model.Artist;
 import com.linfu.musictube.model.Track;
 import com.linfu.musictube.model.YoutubeInfo;
 import org.apache.http.*;
@@ -130,6 +131,33 @@ public class AudioDbService {
                     tracks.add(track);
                 }
                 return tracks;
+            }
+        }
+        return null;
+    }
+
+    public Artist getArtistByArtistId(String artistId) throws IOException {
+        //http://www.theaudiodb.com/api/v1/json/1/artist.php?i=129757
+
+        HttpRequest request = new HttpGet("/api/v1/json/1/artist.php?i=" + artistId);
+        HttpHost url = new HttpHost("www.theaudiodb.com");
+
+        final HttpResponse httpResponse = httpClient.execute(url, request);
+
+        if (httpResponse.getStatusLine().getStatusCode() == 200) {
+            HttpEntity responseEntity = httpResponse.getEntity();
+            if (responseEntity != null) {
+                String result = EntityUtils.toString(responseEntity);
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonResult = objectMapper.readTree(result);
+
+                Artist artist = new Artist();
+
+                artist.setId(jsonResult.get("artists").get(0).get("idArtist").asText());
+                artist.setArtistName(jsonResult.get("artists").get(0).get("strArtist").asText());
+                artist.setArtistThumb(jsonResult.get("artists").get(0).get("strArtistThumb").asText());
+
+                return artist;
             }
         }
         return null;

@@ -54,4 +54,8 @@ public class MusictubeService {
         //else - get the data from audioDB
         return audioDbService.getAlbumsByArtistName(albumnName);
     }
+
+    public Artist getArtistByArtistId(String artistId) throws IOException {
+        return audioDbService.getArtistByArtistId(artistId);
+    }
 }

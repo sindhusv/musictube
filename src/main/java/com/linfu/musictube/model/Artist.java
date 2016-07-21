@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by sindhu.vadivelu on 07/07/16.
  */
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Artist {
     private String id;
-    private String artistId;
-    private String name;
+    private String artistName;
+    private String artistThumb;
+    private List<Album> albums;
 }

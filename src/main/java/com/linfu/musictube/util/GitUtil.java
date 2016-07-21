@@ -62,7 +62,7 @@ public class GitUtil {
     }
 
     public void addAlbum(Album album) throws IOException, GitAPIException {
-        /*
+        /**
             PATH: musictube-data/tracks/<artistId>/<albumId.json>
 
             albumnId.json
@@ -100,11 +100,10 @@ public class GitUtil {
                         }
             }
          */
-
-        Album albumData = new Album();
-        ObjectMapper mapper = new ObjectMapper();
-
         pull();
+
+        Album albumData;
+        ObjectMapper mapper = new ObjectMapper();
 
         File dataDir = new File(localPath + "/src/main/resources/data");
         if (!dataDir.exists()) {
@@ -139,17 +138,51 @@ public class GitUtil {
     }
 
     public void addArtist(Artist artist) throws IOException, GitAPIException {
+        /**
+         * /tracks/artists.json
+         * /tracks/<artistId>/albumns.json
+         */
         pull();
 
-        File myfile = new File(localPath + "/src/main/resources/artist.json");
+        List<Artist> artistData = new ArrayList<Artist>();
         ObjectMapper mapper = new ObjectMapper();
-        List<Artist> artists = mapper.readValue(myfile, new TypeReference<List<Artist>>(){});
-        artists.add(artist);
-        mapper.writeValue(myfile, artists);
 
-        add();
-        commit("Added artist");
-        push();
+        File dataDir = new File(localPath + "/src/main/resources/data");
+        if (!dataDir.exists()) {
+            log.info("Creating Data directory");
+            dataDir.mkdir();
+        }
+
+        File artistFile = new File(localPath + "/src/main/resources/data/artists.json");
+        if (!artistFile.exists()) {
+            log.info("Creating artists.json file");
+            artistFile.createNewFile();
+        } else {
+            artistData = mapper.readValue(artistFile, new TypeReference<List<Artist>>(){});
+        }
+
+        boolean alreadyPresent = false;
+        for (Artist localArtist : artistData) {
+            if (localArtist.getId() == artist.getId()) {
+                alreadyPresent = true;
+                break;
+            }
+        }
+
+        if (!alreadyPresent) {
+            Artist artistWithoutAlbumn = artist;
+            artistWithoutAlbumn.setAlbums(null);
+            artistData.add(artistWithoutAlbumn);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(artistFile, artistData);
+
+            add();
+            commit("Added artist");
+            push();
+        }
+
+        for (Album album : artist.getAlbums()) {
+            this.addAlbum(album);
+        }
     }
 
     public void addTrack(Track track) throws IOException, GitAPIException {

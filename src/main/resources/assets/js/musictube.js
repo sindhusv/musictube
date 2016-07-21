@@ -10,8 +10,8 @@ $(document).ready(function() {
     }
 });
 
-function getTracks(albumnId, alumnName, artistName) {
-    window.location.href = "/musictube/track/" + albumnId + "/" + alumnName + "/" + artistName;
+function getTracks(artistId, artistName, albumnId, alumnName) {
+    window.location.href = "/musictube/" + artistId + "/" + artistName + "/" + albumnId + "/" + alumnName +  "/track" ;
 }
 
 function refreshYoutubeLink(trackId) {
@@ -33,7 +33,7 @@ function refreshYoutubeLink(trackId) {
     document.getElementById("iframe-youtubeLink-" + trackId).src = "https://www.youtube.com/embed/" + videoId;
 }
 
-function uploadAlbum(albumnId) {
+function uploadAlbum(artistId, albumnId) {
 
     var trackRows = document.getElementById("trackTable").rows;
     var validatedTrackIds = [];
@@ -49,7 +49,7 @@ function uploadAlbum(albumnId) {
     console.log(validatedTrackIds);
 
     var json = jQuery.ajax({
-        url : "/musictube/album/" + albumnId,
+        url : "/musictube/artist/" + artistId + "/album/" + albumnId,
         type : "POST",
         async : true,
         processData:false,
