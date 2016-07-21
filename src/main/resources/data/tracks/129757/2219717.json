@@ -1,0 +1,27 @@
+{
+  "id" : "2219717",
+  "artistId" : "129757",
+  "artistName" : "Anirudh Ravichander",
+  "title" : "Kaththi",
+  "albumArt" : "http://www.theaudiodb.com/images/media/album/thumb/qqywrp1411708008.jpg",
+  "year" : "2014",
+  "tracks" : [ {
+    "id" : "34063030",
+    "trackNumber" : "1",
+    "title" : "Pakkam Vanthu",
+    "youtubeLink" : "QiqV_0IpeUc",
+    "youtubeChannelId" : "UCnS5MV3PRAgTGu2Y2DdGhfQ",
+    "youtubeChannelTitle" : "Eros Tamil",
+    "duration" : "256000",
+    "lock" : true
+  }, {
+    "id" : "34063031",
+    "trackNumber" : "2",
+    "title" : "Paalam",
+    "youtubeLink" : "cNrzG4Oa4-Y",
+    "youtubeChannelId" : "UCnS5MV3PRAgTGu2Y2DdGhfQ",
+    "youtubeChannelTitle" : "Eros Tamil",
+    "duration" : "311000",
+    "lock" : true
+  } ]
+}
