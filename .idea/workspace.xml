@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca23775e-f2be-427b-b554-9044e8e6ae74" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/data/tracks/129757/2209642.json" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/AudioDbService.java" afterPath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/AudioDbService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java" afterPath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/resource/MusictubeResource.java" afterPath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/resource/MusictubeResource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/model/Track.java" afterPath="$PROJECT_DIR$/src/main/java/com/linfu/musictube/model/Track.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/data/tracks/129757/2261431.json" afterPath="" />
     </list>
     <ignored path="musictube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/resource/MusictubeResource.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="32" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
+              <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1489#1496#0" expanded="true" />
@@ -62,7 +58,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/MusictubeService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,8 +67,8 @@
       <file leaf-file-name="GitUtil.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.1188455">
-              <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.33333334">
+              <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -136,10 +132,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/model/Album.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/MusictubeService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/assets/js/musictube.js" />
-        <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/model/Track.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/AudioDbService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/resource/MusictubeResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java" />
       </list>
     </option>
   </component>
@@ -833,12 +829,12 @@
       <workItem from="1467873596580" duration="598000" />
       <workItem from="1467875296817" duration="4365000" />
       <workItem from="1468692423849" duration="17642000" />
-      <workItem from="1469036427248" duration="41262000" />
+      <workItem from="1469036427248" duration="41488000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65304000" />
+    <option name="totallyTimeSpent" value="65530000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="686" extended-state="0" />
@@ -865,7 +861,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38573745" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38573745" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1337,7 +1333,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/resource/MusictubeResource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="32" selection-start-line="58" selection-start-column="32" selection-end-line="58" selection-end-column="32" />
+          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1489#1496#0" expanded="true" />
@@ -1349,15 +1345,15 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/service/MusictubeService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/linfu/musictube/util/GitUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1188455">
-          <caret line="63" column="16" selection-start-line="63" selection-start-column="16" selection-end-line="63" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding />
         </state>
       </provider>
