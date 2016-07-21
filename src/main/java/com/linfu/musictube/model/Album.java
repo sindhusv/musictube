@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Created by sindhu.vadivelu on 17/07/16.
  */
@@ -18,8 +20,9 @@ import lombok.NoArgsConstructor;
 public class Album {
     private String id;
     private String artistId;
-    private String name;
-    private String artist;
+    private String artistName;
+    private String title;
     private String albumArt;
     private String year;
+    private List<Track> tracks;
 }

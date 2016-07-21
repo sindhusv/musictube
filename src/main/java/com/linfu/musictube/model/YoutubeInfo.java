@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by sindhu.vadivelu on 17/07/16.
+ * Created by sindhu.vadivelu on 21/07/16.
  */
 
 @Data
@@ -15,12 +15,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Track {
-    private String id;
-    private String trackNumber;
-    private String title;
-    private String youtubeLink;
-    private String youtubeChannelId;
-    private String youtubeChannelTitle;
-    private String duration;
+public class YoutubeInfo {
+    private String trackId;
+    private String videoId;
+    private String videoTitle;
+    private String channelId;
+    private String channelTitle;
 }

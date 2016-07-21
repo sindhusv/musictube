@@ -30,13 +30,17 @@ public class GitUtil {
         remotePath = "https://github.com/sindhusv/musictube.git";
         localRepo = new FileRepository(localPath + "/.git");
         git = new Git(localRepo);
-        cloneRepo();
+       // cloneRepo();
     }
 
     private void cloneRepo() throws IOException, GitAPIException {
         //TODO: check if repo already exist, if exist do only pull else clone
         Git.cloneRepository().setURI(remotePath)
                 .setDirectory(new File(localPath)).call();
+    }
+
+    private void add() throws GitAPIException {
+        git.add().addFilepattern(".").call();
     }
 
     private void commit(String message) throws IOException, GitAPIException, JGitInternalException {
@@ -54,15 +58,54 @@ public class GitUtil {
     }
 
     public void addAlbum(Album album) throws IOException, GitAPIException {
+        /*
+            PATH: musictube-data/tracks/<artistId>/<albumId.json>
+
+            albumnId.json
+            {
+                {
+                      "id": "2263135",
+                      "artistId": "118522",
+                      "name": "Theri",
+                      "artist": "G.V. Prakash Kumar",
+                      "albumArt": "http://media.theaudiodb.com/images/media/album/thumb/tqvrtq1461646043.jpg",
+                      "year": 2016,
+                      "tracks": [
+                            {
+                              "duration": "289000",
+                              "id": "34587718",
+                              "title": "Jithu Jilladi",
+                              "trackNumber": "1",
+                              "youtubeLink": "9lkT6HnwCzQ"
+                            },
+                            {
+                              "duration": "290000",
+                              "id": "34587719",
+                              "title": "Chellaakutty",
+                              "trackNumber": "2",
+                              "youtubeLink": "N65aMlDJWOE"
+                            },
+                            {
+                              "duration": "320000",
+                              "id": "34587720",
+                              "title": "Yen Jeevan",
+                              "trackNumber": "3",
+                              "youtubeLink": "H3GhtM8V-d"
+                            }
+                          ]
+                        }
+            }
+         */
+
         pull();
 
-        File myfile = new File(localPath + "/src/main/resources/album.json");
+        File myfile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
         ObjectMapper mapper = new ObjectMapper();
         List<Album> albums = mapper.readValue(myfile, new TypeReference<List<Album>>(){});
         albums.add(album);
-        mapper.writeValue(myfile, albums);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(myfile, albums);
 
-        git.add().addFilepattern("album.json").call();
+        add();
         commit("Added album");
         push();
     }
@@ -76,7 +119,7 @@ public class GitUtil {
         artists.add(artist);
         mapper.writeValue(myfile, artists);
 
-        git.add().addFilepattern("artist.json").call();
+        add();
         commit("Added artist");
         push();
     }
@@ -90,7 +133,7 @@ public class GitUtil {
         tracks.add(track);
         mapper.writeValue(myfile, tracks);
 
-        git.add().addFilepattern("track.json").call();
+        add();
         commit("Added track");
         push();
     }

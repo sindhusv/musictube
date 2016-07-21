@@ -7,6 +7,7 @@ import com.linfu.musictube.util.GitUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -14,9 +15,11 @@ import java.io.IOException;
  */
 public class MusictubeService {
 
+    private AudioDbService audioDbService;
     private GitUtil git;
 
-    public MusictubeService(GitUtil gitUtil) {
+    public MusictubeService(AudioDbService audioDbService, GitUtil gitUtil) {
+        this.audioDbService = audioDbService;
         git = gitUtil;
     }
 
@@ -28,7 +31,27 @@ public class MusictubeService {
         git.addArtist(artist);
     }
 
-    public void addTrack(Track track) throws IOException, GitAPIException {
-        git.addTrack(track);
+    public void addTrack(List<Track> tracks) throws IOException, GitAPIException {
+        for (Track track : tracks) {
+            git.addTrack(track);
+        }
+    }
+
+    public List<Track> getTracks(String albumnId, String albumnName) throws IOException {
+        //search in local repo
+        //if exist - return the result
+        //else - get the data from audioDB
+        return audioDbService.getTracksByAlbumnId(albumnId, albumnName);
+    }
+
+    public Album getAlbumByAlbumId(String albumId) throws IOException {
+        return audioDbService.getAlbumByAlbumId(albumId);
+    }
+
+    public List<Album> getAlbumnsByArtistName(String albumnName) throws IOException {
+        //search in local repo
+        //if exist - return the result
+        //else - get the data from audioDB
+        return audioDbService.getAlbumsByArtistName(albumnName);
     }
 }
