@@ -13,9 +13,13 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +34,11 @@ public class GitUtil {
     private Git git;
 
     public GitUtil() throws IOException, GitAPIException {
-        localPath = "/Users/sindhu.vadivelu/flipkart/personal/mytest";
-        remotePath = "https://github.com/sindhusv/musictube.git";
+        localPath = "/Users/sindhu.vadivelu/flipkart/personal/local-musictube-data";
+        remotePath = "https://github.com/sindhusv/musictube-data.git";
         localRepo = new FileRepository(localPath + "/.git");
         git = new Git(localRepo);
-       // cloneRepo();
+        //cloneRepo();
     }
 
     private void cloneRepo() throws IOException, GitAPIException {
@@ -113,22 +117,22 @@ public class GitUtil {
         List<Album> albumMetaData = new ArrayList<Album>();
         ObjectMapper mapper = new ObjectMapper();
 
-        File dataDir = new File(localPath + "/src/main/resources/data");
+        File dataDir = new File(localPath + "/");
         if (!dataDir.exists()) {
             log.info("Creating Data directory");
             dataDir.mkdir();
         }
-        File tracksDir = new File(localPath + "/src/main/resources/data/tracks");
+        File tracksDir = new File(localPath + "/tracks");
         if (!tracksDir.exists()) {
             log.info("Creating Tracks directory");
             tracksDir.mkdir();
         }
-        File artistDir = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId());
+        File artistDir = new File(localPath + "/tracks/" + album.getArtistId());
         if (!artistDir.exists()) {
             log.info(String.format("Creating artist- {} directory", album.getArtistId()));
             artistDir.mkdir();
         }
-        File albumMetadataFile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/albums.json");
+        File albumMetadataFile = new File(localPath + "/tracks/" + album.getArtistId() + "/albums.json");
         if (!albumMetadataFile.exists()) {
             log.info("Creating albumMetadata file");
             albumMetadataFile.createNewFile();
@@ -160,7 +164,7 @@ public class GitUtil {
         }
 
 
-        File albumFile = new File(localPath + "/src/main/resources/data/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
+        File albumFile = new File(localPath + "/tracks/" + album.getArtistId() + "/" + album.getId() + ".json");
         if (!albumFile.exists()) {
             log.info(String.format("Creating albumn-{} file", album.getId()));
             albumFile.createNewFile();
@@ -183,13 +187,13 @@ public class GitUtil {
         List<Artist> artistData = new ArrayList<Artist>();
         ObjectMapper mapper = new ObjectMapper();
 
-        File dataDir = new File(localPath + "/src/main/resources/data");
+        File dataDir = new File(localPath + "/");
         if (!dataDir.exists()) {
             log.info("Creating Data directory");
             dataDir.mkdir();
         }
 
-        File artistFile = new File(localPath + "/src/main/resources/data/artists.json");
+        File artistFile = new File(localPath + "/artists.json");
         if (!artistFile.exists()) {
             log.info("Creating artists.json file");
             artistFile.createNewFile();
@@ -219,13 +223,5 @@ public class GitUtil {
         for (Album album : artist.getAlbums()) {
             this.addAlbum(album);
         }
-    }
-
-    public void addTrack(Track track) throws IOException, GitAPIException {
-        File myfile = new File(localPath + "/src/main/resources/track.json");
-        ObjectMapper mapper = new ObjectMapper();
-        List<Track> tracks = mapper.readValue(myfile, new TypeReference<List<Track>>(){});
-        tracks.add(track);
-        mapper.writeValue(myfile, tracks);
     }
 }
