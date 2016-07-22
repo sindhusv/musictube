@@ -120,6 +120,7 @@ public class GitUtil {
 
         Album albumData;
         List<Album> albumMetaData = new ArrayList<Album>();
+        List<Album> albumOuterMetaData = new ArrayList<Album>();
         ObjectMapper mapper = new ObjectMapper();
 
         File dataDir = new File(localPath + "/");
@@ -127,6 +128,36 @@ public class GitUtil {
             log.info("Creating Data directory");
             dataDir.mkdir();
         }
+        File albumOuterFile = new File(localPath + "/albums.json");
+        if (!albumOuterFile.exists()) {
+            log.info("Creating albumOuter file");
+            albumOuterFile.createNewFile();
+        } else {
+            albumOuterMetaData = mapper.readValue(albumOuterFile, new TypeReference<List<Album>>(){});
+        }
+        boolean albumOuterMetadataAlreadyPresent = false;
+        for (Album localAlbum : albumMetaData) {
+            if (localAlbum.getId().equals(album.getId())) {
+                albumOuterMetadataAlreadyPresent = true;
+                break;
+            }
+        }
+
+        if (!albumOuterMetadataAlreadyPresent) {
+            Album albumWithoutTracks = new Album();
+            albumWithoutTracks.setId(album.getId());
+            albumWithoutTracks.setTitle(album.getTitle());
+            albumWithoutTracks.setArtistId(album.getArtistId());
+            albumWithoutTracks.setArtistName(album.getArtistName());
+            albumWithoutTracks.setAlbumArt(album.getAlbumArt());
+            albumWithoutTracks.setYear(album.getYear());
+            albumWithoutTracks.setTracks(null);
+
+            albumOuterMetaData.add(albumWithoutTracks);
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(albumOuterFile, albumOuterMetaData);
+        }
+
         File tracksDir = new File(localPath + "/tracks");
         if (!tracksDir.exists()) {
             log.info("Creating Tracks directory");
