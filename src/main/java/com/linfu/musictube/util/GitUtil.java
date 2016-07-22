@@ -1,10 +1,12 @@
 package com.linfu.musictube.util;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.linfu.musictube.model.Album;
 import com.linfu.musictube.model.Artist;
 import com.linfu.musictube.model.Track;
+import freemarker.template.utility.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -17,11 +19,14 @@ import org.eclipse.jgit.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by sindhu.vadivelu on 17/07/16.
@@ -172,7 +177,23 @@ public class GitUtil {
         } else {
             albumData = mapper.readValue(albumFile, Album.class);
             //TODO: validate whether we are appending any already locked tracks
-            albumData.getTracks().addAll(album.getTracks());
+
+            List<String> newTrackIds = new ArrayList<String>();
+            for (Track newTrack : album.getTracks()) {
+                newTrackIds.add(newTrack.getId());
+            }
+            for (Track oldTrack : albumData.getTracks()) {
+                if (newTrackIds.contains(oldTrack.getId()))
+                    oldTrack.setLock(false);
+            }
+
+            List<Track> updatedTracks = new ArrayList<Track>();
+            for (Track oldTrack : albumData.getTracks()) {
+                if (oldTrack.isLock())
+                    updatedTracks.add(oldTrack);
+            }
+            updatedTracks.addAll(album.getTracks());
+            albumData.setTracks(updatedTracks);
         }
 
         mapper.writerWithDefaultPrettyPrinter().writeValue(albumFile, albumData);
@@ -223,5 +244,15 @@ public class GitUtil {
         for (Album album : artist.getAlbums()) {
             this.addAlbum(album);
         }
+    }
+
+    public List<Track> getTrackIds(String artistId, String albumId) throws IOException {
+        File albumFile = new File(localPath + "/tracks/" + artistId + "/" + albumId + ".json");
+        if (albumFile.exists()) {
+            ObjectMapper mapper = new ObjectMapper();
+            Album album = mapper.readValue(albumFile, Album.class);
+            return album.getTracks();
+        }
+        return null;
     }
 }

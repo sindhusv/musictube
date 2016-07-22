@@ -61,6 +61,8 @@ public class AudioDbService {
     public List<Album> getAlbumsByArtistName(String artistName) throws IOException{
         //www.theaudiodb.com/api/v1/json/1/searchalbum.php?s=coldplay
 
+        artistName =  artistName.replace(" ", "+");
+
         HttpRequest request = new HttpGet("/api/v1/json/1/searchalbum.php?s=" + artistName);
         HttpHost url = new HttpHost("www.theaudiodb.com");
 
@@ -158,6 +160,41 @@ public class AudioDbService {
                 artist.setArtistThumb(jsonResult.get("artists").get(0).get("strArtistThumb").asText());
 
                 return artist;
+            }
+        }
+        return null;
+    }
+
+    public List<Artist> getArtistsBySearchKey(String searchKey) throws IOException {
+        //www.theaudiodb.com/api/v1/json/1/search.php?s=maroon%25
+
+        searchKey =  searchKey.replace(" ", "+");
+
+        HttpRequest request = new HttpGet("/api/v1/json/1/search.php?s=%25" + searchKey + "%25");
+        HttpHost url = new HttpHost("www.theaudiodb.com");
+
+        final HttpResponse httpResponse = httpClient.execute(url, request);
+
+        if (httpResponse.getStatusLine().getStatusCode() == 200) {
+            HttpEntity responseEntity = httpResponse.getEntity();
+            if (responseEntity != null) {
+                String result = EntityUtils.toString(responseEntity);
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonResult = objectMapper.readTree(result);
+
+                if (jsonResult.get("artists") != null) {
+                    List<Artist> artists = new ArrayList<Artist>();
+                    for (int i = 0; i < jsonResult.get("artists").size() ; i++) {
+                        Artist artist = new Artist();
+
+                        artist.setId(jsonResult.get("artists").get(i).get("idArtist").asText());
+                        artist.setArtistName(jsonResult.get("artists").get(i).get("strArtist").asText());
+                        artist.setArtistThumb(jsonResult.get("artists").get(i).get("strArtistThumb").asText());
+
+                        artists.add(artist);
+                    }
+                    return artists;
+                }
             }
         }
         return null;

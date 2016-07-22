@@ -7,6 +7,7 @@ import com.linfu.musictube.util.GitUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,8 +32,25 @@ public class MusictubeService {
         git.push();
     }
 
-    public List<Track> getTracks(String albumnId, String albumnName) throws IOException {
-        return audioDbService.getTracksByAlbumnId(albumnId, albumnName);
+    public List<Track> getTracks(String artistId, String albumnId, String albumnName) throws IOException {
+        List<Track> audioDbTracks = audioDbService.getTracksByAlbumnId(albumnId, albumnName);
+        List<Track> localTracks = git.getTrackIds(artistId, albumnId);
+
+        List<String> localTrackIds = new ArrayList<String>();
+        if (localTracks != null) {
+            for (Track localTrack : localTracks) {
+                localTrackIds.add(localTrack.getId());
+            }
+        }
+
+        if (audioDbTracks != null) {
+            for (Track track : audioDbTracks) {
+                if (localTrackIds.contains(track.getId()))
+                    track.setLock(true);
+            }
+        }
+
+        return audioDbTracks;
     }
 
     public Album getAlbumByAlbumId(String albumId) throws IOException {
@@ -45,5 +63,9 @@ public class MusictubeService {
 
     public Artist getArtistByArtistId(String artistId) throws IOException {
         return audioDbService.getArtistByArtistId(artistId);
+    }
+
+    public List<Artist> getArtistsBySearchKey(String searchKey) throws IOException {
+        return audioDbService.getArtistsBySearchKey(searchKey);
     }
 }

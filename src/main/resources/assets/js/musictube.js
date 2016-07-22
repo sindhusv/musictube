@@ -6,9 +6,13 @@ $(document).ready(function() {
         var artistName = document.getElementById("artistName").value;
         console.log(artistName);
 
-        window.location.href = "/musictube/album/" + artistName;
+        window.location.href = "/musictube/artist/" + artistName;
     }
 });
+
+function getAlbums(artistId, artistName) {
+    window.location.href = "/musictube/album/" + artistName;
+}
 
 function getTracks(artistId, artistName, albumnId, alumnName) {
     window.location.href = "/musictube/" + artistId + "/" + artistName + "/" + albumnId + "/" + alumnName +  "/track" ;
@@ -35,6 +39,8 @@ function refreshYoutubeLink(trackId) {
 
 function uploadAlbum(artistId, albumnId) {
 
+   // var validTracks = new Object();
+
     var trackRows = document.getElementById("trackTable").rows;
     var validatedTrackIds = [];
 
@@ -43,10 +49,15 @@ function uploadAlbum(artistId, albumnId) {
 
         if($("#toggle-verify-" + trackId)[0].checked) {
             validatedTrackIds.push(trackId);
+
+   //         var alternateUrl = null;
+     //       validTracks[trackId] = alternateUrl;
+
         }
     }
 
     console.log(validatedTrackIds);
+ //   console.log(validTracks);
 
     var json = jQuery.ajax({
         url : "/musictube/artist/" + artistId + "/album/" + albumnId,
@@ -56,6 +67,7 @@ function uploadAlbum(artistId, albumnId) {
         data: 'json',
         dataType: 'html',
         contentType:"application/json; charset=utf-8",
+        data : JSON.stringify(validatedTrackIds),
         statusCode : {
             404 : function(response) {
             }
@@ -63,9 +75,8 @@ function uploadAlbum(artistId, albumnId) {
         error:function(e){
 
         },
-        data : JSON.stringify(validatedTrackIds),
         success : function(e) {
-
+            alert("Successfully added");
         }
     });
 }

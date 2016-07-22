@@ -22,7 +22,7 @@
                 <td>${track.title}</td>
                 <td>
                     <div style="width: 420px; margin-bottom: 10px; background-color: whitesmoke; color: grey; display: flex; justify-content: center">
-                        <input type="text" id="input-youtubeAlternateLink-${track.id}" placeholder="Alternate link" style="width: 332px; height: 42px">
+                        <input type="text" id="input-youtubeAlternateLink-${track.id}" placeholder="Alternate link" style="width: 372px; height: 42px">
                         <button id="btn-youtubeAlternateLink-${track.id}" class="btn btn-success" type="button" style="background-color: grey; margin: 0px" onclick="refreshYoutubeLink('${track.id}')">Go!</button>
                     </div>
                     <iframe id="iframe-youtubeLink-${track.id}" width="420" height="315"
@@ -31,7 +31,7 @@
                 </td>
                 <td>${track.youtubeChannelTitle}</td>
                 <td>
-                    <input id="toggle-verify-${track.id}" type="checkbox" data-toggle="toggle" data-on="Verfied" data-off="Not Verified" style="text-align: left">
+                    <input id="toggle-verify-${track.id}" type="checkbox" data-toggle="toggle" data-on="Verfied" data-off="Not Verified" style="text-align: left" ${track.lock?then('checked', '')}>
                 </td>
             </tr>
         </#list>
